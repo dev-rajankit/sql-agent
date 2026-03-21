@@ -1,80 +1,257 @@
 # 📊 Fullstack SQL AI Agent
 
-Welcome to the **SQL AI Agent**! This project solves a common problem in companies: non-technical team members (like managers or marketers) often need database data but don't know how to write complex SQL queries [1]. 
+An intelligent **AI-powered database assistant** that allows users to query a database using **natural language instead of SQL**.
 
-Instead of building complex dashboards, this application provides a ChatGPT-like interface where users can ask questions in plain English (e.g., *"How much sales did we make today?"*), and the AI will secretly fetch the exact data from the database and reply with a human-friendly answer [1, 4].
+---
+
+## 🚀 Problem It Solves
+
+In most companies, non-technical people (managers, analysts, marketers) need data but **don’t know SQL**.
+
+Instead of:
+
+* writing complex queries ❌
+* depending on developers ❌
+* building dashboards ❌
+
+This app lets users simply ask:
+
+> “How much sales did we make today?”
+
+And the AI:
+
+* understands the question 🧠
+* generates SQL ⚙️
+* queries the database 📊
+* returns a human-friendly answer 💬
+
+---
 
 ## ✨ Features
 
-* **🗣️ Natural Language to SQL:** Ask questions in plain English, and the AI handles the complex database logic.
-* **🛠️ Multi-Step Tool Calling:** The AI autonomously calls custom backend tools. It first checks the database blueprint (Schema Tool) and then executes the query (DB Tool) [2].
-* **⚡ Real-Time Streaming UI:** Gives users a smooth experience by streaming the AI's response letter-by-letter, just like ChatGPT [5].
-* **شف Transparent Execution:** The UI shows interactive loading states (e.g., "Fetching Schema...", "Running Database Query...") so users see the AI's "thought process" [6, 7].
-* **☁️ Serverless Architecture:** Fully deployed on Vercel using Next.js API Routes (Serverless Functions) [8].
-* **💸 Free API Integration:** Powered by Google Gemini 1.5 Pro (via Vercel AI SDK) for a completely free and powerful AI brain.
+* 🗣️ **Natural Language → SQL**
+
+  * Ask questions in plain English
+  * AI handles SQL generation automatically
+
+* 🧠 **AI Tool Calling (Core Feature)**
+
+  * AI first fetches **database schema**
+  * Then generates correct SQL query
+  * Then executes query using backend tools
+
+* ⚡ **Streaming UI (ChatGPT-like)**
+
+  * Responses appear in real-time
+  * Smooth and interactive experience
+
+* 🔍 **Transparent Execution**
+
+  * Shows steps like:
+
+    * "Fetching Schema..."
+    * "Running Query..."
+  * Helps users understand what AI is doing
+
+* ☁️ **Serverless Architecture**
+
+  * Built using Next.js API routes
+  * Deployed easily on Vercel
+
+* 💸 **Free AI Integration**
+
+  * Uses **Google Gemini (1.5 Pro)**
+  * No paid OpenAI API required
+
+---
 
 ## 💻 Tech Stack
 
-* **Frontend:** Next.js (App Router), React, Tailwind CSS [9].
-* **Backend:** Next.js API Routes [10].
-* **AI Integration:** Vercel AI SDK (`@ai-sdk/react`, `@ai-sdk/google`) [1, 11].
-* **Database:** Turso (Cloud SQLite) [12].
-* **ORM:** Drizzle ORM (for executing SQL queries safely) [13, 14].
-* **Validation:** Zod (for structuring AI tool inputs) [15].
-
-## 🏗️ System Architecture
-
-This project follows a highly secure, serverless architecture:
-1. **User Input:** The user types a question in the UI.
-2. **Secure API:** The Next.js frontend sends the message to a secure backend API route (`/api/chat`) [10].
-3. **AI Processing:** The backend forwards the message to the Gemini AI Model.
-4. **Tool Calling (Schema):** The AI asks the backend for the database structure [2].
-5. **Tool Calling (Query):** The AI generates an SQL query and asks the backend to run it [16].
-6. **Database Execution:** Drizzle ORM runs the query on the Turso Database [12, 17].
-7. **Streamed Response:** The final data is formatted into an English sentence by the AI and streamed back to the user's screen [5, 18].
-
-## 🚀 Getting Started (Run it Locally)
-
-Follow these steps to run the project on your local machine.
-
-### 1. Clone the repository
-\`\`\`bash
-git clone https://github.com/YOUR_USERNAME/sql-agent-yt.git
-cd sql-agent-yt
-\`\`\`
-
-### 2. Install dependencies
-\`\`\`bash
-pnpm install
-\`\`\`
-
-### 3. Set up Environment Variables
-Create a `.env.local` file in the root folder and add the following secret keys:
-\`\`\`env
-# Get this free from Google AI Studio
-GOOGLE_GENERATIVE_AI_API_KEY=your_gemini_api_key_here
-
-# Get these free by creating a database on Turso.tech
-TURSO_DATABASE_URL=your_turso_db_url_here
-TURSO_AUTH_TOKEN=your_turso_auth_token_here
-\`\`\`
-
-### 4. Setup the Database
-Generate the tables and fill them with dummy data (Products and Sales):
-\`\`\`bash
-pnpm run db:generate   # Generates the SQL schema
-pnpm run db:migrate    # Pushes the tables to Turso
-pnpm run db:seed       # Fills the database with dummy sales data
-\`\`\`
-
-### 5. Run the Development Server
-\`\`\`bash
-pnpm run dev
-\`\`\`
-Open [http://localhost:3000](http://localhost:3000) in your browser to see the app running!
-
-## ⚠️ Security Note
-In a real-world production environment, never blindly execute AI-generated SQL queries [17, 19]. Always use a read-only database user and implement strict code guardrails to prevent the AI from generating `DELETE`, `DROP`, or `UPDATE` commands [19].
+* **Frontend:** Next.js (App Router), React, Tailwind CSS
+* **Backend:** Next.js API Routes (Serverless Functions)
+* **AI SDK:** Vercel AI SDK (`@ai-sdk/react`, `@ai-sdk/google`)
+* **Database:** Turso (Cloud SQLite)
+* **ORM:** Drizzle ORM
+* **Validation:** Zod
 
 ---
-*Built with ❤️ while learning Fullstack AI Development.*
+
+## 🏗️ System Architecture (Important 🔥)
+
+This project follows a **Tool-Calling AI Architecture**.
+
+### 📌 Full Data Flow
+
+```
+User → Frontend (Chat UI)
+     → Backend API (/api/chat)
+     → AI Model (Gemini)
+     → Tool Calling (Schema Tool)
+     → Tool Calling (DB Tool)
+     → Database (Turso)
+     → AI formats response
+     → Stream back to UI
+```
+
+---
+
+### 🧠 Step-by-Step Flow (Simple Explanation)
+
+1. **User asks a question**
+
+   * Example: “Show total sales by region”
+
+2. **Frontend sends request to backend**
+
+   * `/api/chat` route
+
+3. **Backend sends message to AI (Gemini)**
+
+4. **AI decides what to do**
+
+   * Step 1 → calls **schema tool**
+   * Step 2 → understands database structure
+
+5. **AI generates SQL query**
+
+   * Example:
+
+     ```sql
+     SELECT region, SUM(total_amount) FROM sales GROUP BY region;
+     ```
+
+6. **AI calls DB tool**
+
+   * Backend executes query using Drizzle ORM
+
+7. **Database returns result**
+
+8. **AI converts result into human-friendly answer**
+
+   * Example:
+
+     > “North region has highest sales of ₹50,000”
+
+9. **Response is streamed back to UI**
+
+---
+
+### 🧠 Real-World Analogy
+
+Think of it like a **smart data analyst**:
+
+* User = Manager
+* AI = Analyst
+* Schema = Database knowledge
+* DB tool = Analyst running queries
+* Final response = Business insight
+
+---
+
+## 🔁 OpenAI → Gemini Migration
+
+This project originally used OpenAI but now uses **Google Gemini**.
+
+### Why Gemini?
+
+* ✅ Free tier available
+* ✅ Good performance
+* ✅ Works with Vercel AI SDK
+
+### Key Difference
+
+| Feature        | OpenAI   | Gemini          |
+| -------------- | -------- | --------------- |
+| Cost           | Paid     | Free tier       |
+| Tool Calling   | Mature   | Slightly strict |
+| Message Format | Flexible | Strict          |
+
+---
+
+## 🚀 Getting Started
+
+### 1. Clone Repository
+
+```bash
+git clone https://github.com/dev-rajankit/sql-agent.git
+cd sql-agent
+```
+
+---
+
+### 2. Install Dependencies
+
+```bash
+pnpm install
+```
+
+---
+
+### 3. Setup Environment Variables
+
+Create `.env.local`:
+
+```env
+GOOGLE_GENERATIVE_AI_API_KEY=your_gemini_api_key
+
+TURSO_DATABASE_URL=your_turso_db_url
+TURSO_AUTH_TOKEN=your_turso_auth_token
+```
+
+---
+
+### 4. Setup Database
+
+```bash
+pnpm run db:generate
+pnpm run db:migrate
+pnpm run db:seed
+```
+
+---
+
+### 5. Run Project
+
+```bash
+pnpm run dev
+```
+
+Open:
+👉 http://localhost:3000
+
+---
+
+## ⚠️ Security Note
+
+Never blindly execute AI-generated SQL.
+
+Always:
+
+* Use **read-only database**
+* Block dangerous queries:
+
+  * `DELETE`
+  * `UPDATE`
+  * `DROP`
+
+---
+
+## 🎯 What You Learn From This Project
+
+* AI Tool Calling Architecture
+* Fullstack AI Integration
+* Database + AI connection
+* Streaming UI
+* Real-world system design
+
+---
+
+## ❤️ Built With Learning Mindset
+
+This project is part of learning **Fullstack AI Development + AI Agents**.
+
+---
+
+## 🔗 Repository
+
+👉 https://github.com/dev-rajankit/sql-agent
