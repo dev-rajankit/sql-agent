@@ -148,25 +148,7 @@ Think of it like a **smart data analyst**:
 
 ---
 
-## 🔁 OpenAI → Gemini Migration
 
-This project originally used OpenAI but now uses **Google Gemini**.
-
-### Why Gemini?
-
-* ✅ Free tier available
-* ✅ Good performance
-* ✅ Works with Vercel AI SDK
-
-### Key Difference
-
-| Feature        | OpenAI   | Gemini          |
-| -------------- | -------- | --------------- |
-| Cost           | Paid     | Free tier       |
-| Tool Calling   | Mature   | Slightly strict |
-| Message Format | Flexible | Strict          |
-
----
 
 ## 🚀 Getting Started
 
